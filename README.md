@@ -2,7 +2,7 @@
 libs for Zinc
 
 main difference:
-- limited allowance address
+- limited allowance address for IERC20
 - no string supported
 - emit operation not supported
 
