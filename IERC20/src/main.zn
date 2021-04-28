@@ -77,6 +77,19 @@ contract Ierc20 {
     }
 
     /**
+     * transfer min(amount, balance) without errors
+     */
+    fn safeTransfer(mut self, recipient: Address, amount: u248) {
+        let balance = self._balances.get(zksync::msg.sender).0;
+
+        if (amount > balance) {
+            self._transfer(zksync::msg.sender, recipient, balance);
+        } else {
+            self._transfer(zksync::msg.sender, recipient, amount);
+        }
+    }
+
+    /**
      * @dev See {IERC20-allowance}.
      */
     fn allowance(self, owner: Address, spender: Address) -> u248 {
