@@ -90,6 +90,20 @@ contract Ierc20 {
     }
 
     /**
+     * transferFrom without errors
+     */
+    fn safeTransferFrom(mut self, sender: Address, recipient: Address, amount: u248) {
+        self._transfer(sender, recipient, amount);
+
+        let currentAllowance = self.allowance(sender, zksync::msg.sender);
+        if (amount > currentAllowance) {
+            self._approve(sender, zksync::msg.sender, 0 as u248);
+        } else {
+            self._approve(sender, zksync::msg.sender, currentAllowance - amount);
+        }
+    }
+
+    /**
      * @dev See {IERC20-allowance}.
      */
     fn allowance(self, owner: Address, spender: Address) -> u248 {
